@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interior Design 3D — User Guide</title>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --panel: #ffffff;
+    --ink: #1f2430;
+    --muted: #5b6472;
+    --brand: #2563eb;
+    --brand-dark: #1e40af;
+    --line: #e2e6ee;
+    --code-bg: #f0f2f7;
+    --warn-bg: #fef3c7;
+    --warn-line: #f59e0b;
+    --info-bg: #eff6ff;
+    --info-line: #3b82f6;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(16, 24, 40, .08), 0 1px 2px rgba(16, 24, 40, .04);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  a { color: var(--brand); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Layout */
+  .layout { display: flex; max-width: 1200px; margin: 0 auto; gap: 32px; padding: 0 20px 80px; }
+  nav {
+    position: sticky; top: 0; align-self: flex-start;
+    width: 240px; flex-shrink: 0;
+    padding: 28px 12px; max-height: 100vh; overflow-y: auto;
+    display: none;
+  }
+  nav .brand { font-weight: 700; font-size: 14px; color: var(--ink); margin-bottom: 16px; display: block; padding: 0 8px; }
+  nav a {
+    display: block; padding: 6px 8px; font-size: 14px; color: var(--muted);
+    border-radius: 6px; border-left: 3px solid transparent;
+  }
+  nav a:hover { color: var(--brand); background: #eef2ff; text-decoration: none; border-left-color: var(--brand); }
+  main { flex: 1; min-width: 0; }
+
+  /* Header */
+  header.hero {
+    background: linear-gradient(135deg, #1e3a8a, #2563eb 60%, #3b82f6);
+    color: #fff; padding: 48px 24px; margin: 24px 0 32px; border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+  header.hero h1 { margin: 0 0 8px; font-size: 30px; line-height: 1.2; }
+  header.hero p { margin: 0; opacity: .9; max-width: 640px; }
+
+  /* Content blocks */
+  section { margin-bottom: 40px; }
+  h2 {
+    font-size: 22px; margin: 0 0 12px; padding-bottom: 8px;
+    border-bottom: 2px solid var(--line);
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2 .num {
+    background: var(--brand); color: #fff; border-radius: 8px;
+    font-size: 14px; width: 26px; height: 26px; flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  h3 { font-size: 17px; margin: 20px 0 8px; }
+  p { margin: 8px 0; }
+  ul, ol { margin: 8px 0; padding-left: 24px; }
+  li { margin: 4px 0; }
+
+  .card {
+    background: var(--panel); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 16px 20px; margin: 12px 0;
+  }
+
+  /* Tables */
+  table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 15px; }
+  th, td { text-align: left; padding: 10px 12px; border: 1px solid var(--line); }
+  th { background: #f0f2f7; font-weight: 600; }
+  tbody tr:nth-child(even) { background: #fafbfd; }
+
+  /* Callouts */
+  .note, .tip { border-left: 4px solid var(--info-line); background: var(--info-bg); padding: 10px 14px; border-radius: 0 8px 8px 0; margin: 12px 0; font-size: 15px; }
+  .tip { border-left-color: var(--warn-line); background: var(--warn-bg); }
+  .note strong, .tip strong { display: block; margin-bottom: 2px; }
+
+  /* Code / keys */
+  code {
+    background: var(--code-bg); border: 1px solid var(--line); border-radius: 4px;
+    padding: 1px 6px; font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 13px;
+  }
+  kbd {
+    background: var(--panel); border: 1px solid #cbd2e0; border-bottom-width: 2px; border-radius: 6px;
+    padding: 2px 8px; font-family: inherit; font-size: 13px; color: var(--ink); white-space: nowrap;
+  }
+
+  /* Hero chips */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35); padding: 4px 12px; border-radius: 999px; font-size: 13px; }
+
+  footer { text-align: center; color: var(--muted); font-size: 13px; padding: 24px; border-top: 1px solid var(--line); margin-top: 24px; }
+
+  @media (min-width: 900px) { nav { display: block; } }
+  @media (max-width: 899px) { header.hero { margin-top: 0; border-radius: 0; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>Interior Design 3D — User Guide</h1>
+  <p>Design rooms in 3D: draw walls, drop in furniture, pick materials, then share or export your finished design. This guide covers everything from your first login to sharing a room.</p>
+  <div class="chips">
+    <span class="chip">Runs in your browser</span>
+    <span class="chip">No install needed</span>
+    <span class="chip">Free to try</span>
+  </div>
+</header>
+
+<div class="layout">
+  <nav>
+    <span class="brand">Interior Design 3D</span>
+    <a href="#getting-started">1. Getting Started</a>
+    <a href="#dashboard">2. Your Projects</a>
+    <a href="#editor">3. The 3D Editor</a>
+    <a href="#walls">4. Drawing Walls &amp; Rooms</a>
+    <a href="#furniture">5. Adding Furniture</a>
+    <a href="#transform">6. Selecting &amp; Transforming</a>
+    <a href="#materials">7. Materials &amp; Properties</a>
+    <a href="#undo">8. Undo &amp; Redo</a>
+    <a href="#shortcuts">9. Keyboard Shortcuts</a>
+    <a href="#sharing">10. Sharing Your Design</a>
+    <a href="#export">11. Exporting</a>
+    <a href="#troubleshooting">12. Troubleshooting &amp; Tips</a>
+  </nav>
+
+  <main>
+
+    <section id="getting-started">
+      <h2><span class="num">1</span> Getting Started</h2>
+
+      <h3>Create an account</h3>
+      <ol>
+        <li>Open the app in a browser (Google Chrome or Edge recommended).</li>
+        <li>Click <strong>Register</strong> and enter your name, a valid email address, and a password (at least 8 characters with a letter and a number).</li>
+        <li>You'll be logged in automatically.</li>
+      </ol>
+
+      <div class="note"><strong>No sign-up friction</strong>No credit card and no download — everything runs in the browser.</div>
+
+      <h3>Logging out</h3>
+      <p>Click <strong>Logout</strong> in the top-right corner of any page. You can log back in anytime with <strong>Log In</strong>.</p>
+    </section>
+
+    <section id="dashboard">
+      <h2><span class="num">2</span> Your Projects (Dashboard)</h2>
+
+      <p>After logging in you land on the <strong>My Projects</strong> page — your home screen.</p>
+
+      <div class="card">
+        <ul>
+          <li><strong>Create a project</strong> — type a name in the box and click <strong>New Project</strong>. You'll jump straight into the editor.</li>
+          <li><strong>Open a project</strong> — click <strong>Open</strong> next to any project to continue editing it.</li>
+          <li><strong>Delete a project</strong> — click <strong>Delete</strong>. You'll be asked to confirm first; deletion is permanent.</li>
+        </ul>
+      </div>
+
+      <p>Each project shows when it was last updated. All your projects are private — only you can see them.</p>
+    </section>
+
+    <section id="editor">
+      <h2><span class="num">3</span> The 3D Editor</h2>
+
+      <p>The editor screen has four parts:</p>
+
+      <table>
+        <thead>
+          <tr><th style="width:30%">Area</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Top bar</strong></td><td>Project name, save status, Save button, Logout</td></tr>
+          <tr><td><strong>Toolbar</strong> (below top bar)</td><td>Tools, undo/redo, furniture, snap/grid, export, share</td></tr>
+          <tr><td><strong>3D viewport</strong></td><td>Your scene — click, drag, and view it in 3D</td></tr>
+          <tr><td><strong>Properties panel</strong> (right side)</td><td>Edit color, material, and dimensions of the selected item</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Navigating the 3D view</h3>
+      <ul>
+        <li><strong>Rotate the camera</strong> — click and drag anywhere on the empty ground.</li>
+        <li><strong>Zoom in/out</strong> — scroll the mouse wheel.</li>
+        <li><strong>Pan (move sideways)</strong> — right-click and drag.</li>
+        <li><strong>Switch tools</strong> — use the toolbar buttons (Select, Move, Rotate, Scale, Wall).</li>
+      </ul>
+
+      <h3>Saving your work</h3>
+      <ul>
+        <li>The app <strong>auto-saves</strong> about 2–3 seconds after you stop making changes.</li>
+        <li>The status in the top bar tells you where things stand:
+          <ul>
+            <li><strong>Saved</strong> (gray) — everything is up to date.</li>
+            <li><strong>Unsaved changes</strong> (yellow) — changes are pending, auto-save is coming.</li>
+            <li><strong>Saving...</strong> — currently writing to the server.</li>
+          </ul>
+        </li>
+        <li>You can also click <strong>Save</strong> anytime.</li>
+      </ul>
+
+      <div class="tip"><strong>Tip</strong>Rename your project anytime by typing in the name box in the top bar. It saves automatically.</div>
+
+      <h3>Unsaved changes from another session?</h3>
+      <p>If you closed the editor while it was mid-save, the app may offer to <strong>Restore draft</strong> when you reopen — a local copy that is newer than the saved version. Click <strong>Restore</strong> to keep your latest work, or <strong>Discard</strong> to ignore it.</p>
+    </section>
+
+    <section id="walls">
+      <h2><span class="num">4</span> Drawing Walls and Rooms</h2>
+
+      <p>The Wall tool builds walls and automatically creates a floor from the outline you draw.</p>
+
+      <ol>
+        <li>Click the <strong>🧱 Wall</strong> button in the toolbar.</li>
+        <li><strong>Click on the ground</strong> to place the first corner. A marker appears.</li>
+        <li>Continue clicking to add more corners — each click draws a wall segment.</li>
+        <li>To <strong>close the room</strong>, click back near your starting corner (it turns green), or click <strong>✓ Complete</strong> (or press <kbd>Enter</kbd>).</li>
+        <li>A floor is created automatically from the closed outline.</li>
+      </ol>
+
+      <p>While drawing:</p>
+      <ul>
+        <li><strong>Right-click</strong> removes the last corner you placed.</li>
+        <li>Press <kbd>Escape</kbd> to cancel the wall tool entirely.</li>
+      </ul>
+    </section>
+
+    <section id="furniture">
+      <h2><span class="num">5</span> Adding Furniture</h2>
+
+      <p>There are two ways to add furniture:</p>
+
+      <h3>Quick place (toolbar)</h3>
+      <p>The toolbar has one-click furniture buttons (<strong>🛋 Sofa</strong>, <strong>⬛ Table</strong>, <strong>💺 Chair</strong>). Click one, then <strong>click on the ground</strong> where you want it. The piece follows your cursor as a preview.</p>
+
+      <h3>Asset Library (full catalog)</h3>
+      <ol>
+        <li>Click <strong>📦 Assets</strong> in the toolbar to open the library.</li>
+        <li>Browse categories or type in the search box.</li>
+        <li><strong>Drag a piece onto the ground</strong> in the viewport — a ghost preview shows where it will land.</li>
+        <li>Release the mouse to drop it.</li>
+      </ol>
+    </section>
+
+    <section id="transform">
+      <h2><span class="num">6</span> Selecting and Transforming Objects</h2>
+
+      <h3>Select</h3>
+      <p>Click an object with the <strong>Select</strong> tool to highlight it. Click empty space to deselect.</p>
+
+      <h3>Move / Rotate / Scale</h3>
+      <ol>
+        <li>Click an object to select it.</li>
+        <li>Pick <strong>Move</strong> (✚), <strong>Rotate</strong> (⟳), or <strong>Scale</strong> (⬌) from the toolbar.</li>
+        <li>A gizmo (arrows / circles / handles) appears on the object. Drag it to transform.</li>
+        <li>With <strong>Snap ON</strong>, movement snaps to whole units and rotation to 15° steps for cleaner layouts.</li>
+      </ol>
+
+      <div class="note"><strong>Walls &amp; floors</strong>Walls and floors are edited with the Properties panel rather than the gizmo.</div>
+
+      <h3>Delete</h3>
+      <p>There is no delete button — <strong>undo</strong> (<kbd>Ctrl+Z</kbd>) removes the last change. To remove something, undo back past the step that added it.</p>
+    </section>
+
+    <section id="materials">
+      <h2><span class="num">7</span> Materials and Properties Panel</h2>
+
+      <p>With an object selected, the <strong>Properties panel</strong> on the right lets you fine-tune it:</p>
+
+      <table>
+        <thead>
+          <tr><th style="width:40%">Setting</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Color</strong></td><td>Pick any color from the swatch.</td></tr>
+          <tr><td><strong>Material presets</strong></td><td>One click: <strong>Wood</strong>, <strong>Fabric</strong>, <strong>Metal</strong>, <strong>Glossy</strong>, or <strong>Matte</strong>.</td></tr>
+          <tr><td><strong>Roughness / Metalness</strong></td><td>Sliders (R and M) for a custom look.</td></tr>
+          <tr><td><strong>Position / Rotation / Scale</strong></td><td>Type exact numbers for precision.</td></tr>
+          <tr><td><strong>Wall height &amp; thickness</strong></td><td>Shown when a wall is selected (H and T).</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="undo">
+      <h2><span class="num">8</span> Undo and Redo</h2>
+      <ul>
+        <li><strong>Undo</strong> — <kbd>Ctrl+Z</kbd> or the <strong>↩</strong> button.</li>
+        <li><strong>Redo</strong> — <kbd>Ctrl+Shift+Z</kbd> or the <strong>↪</strong> button.</li>
+      </ul>
+    </section>
+
+    <section id="shortcuts">
+      <h2><span class="num">9</span> Keyboard Shortcuts Cheat Sheet</h2>
+
+      <table>
+        <thead>
+          <tr><th style="width:40%">Keys</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><kbd>Ctrl</kbd> + <kbd>Z</kbd></td><td>Undo</td></tr>
+          <tr><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd></td><td>Redo</td></tr>
+          <tr><td><kbd>Enter</kbd></td><td>Complete the room (Wall tool)</td></tr>
+          <tr><td><kbd>Escape</kbd></td><td>Cancel current tool / deselect</td></tr>
+          <tr><td>Right-click (in Wall tool)</td><td>Remove last corner</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="sharing">
+      <h2><span class="num">10</span> Sharing Your Design</h2>
+
+      <p>Anyone can view your room through a <strong>share link</strong> — no account needed.</p>
+
+      <ol>
+        <li>Click the <strong>🔗 Share</strong> button in the toolbar.</li>
+        <li>Click <strong>Create share link</strong>.</li>
+        <li>The view-only link appears. Click <strong>Copy</strong> to copy it.</li>
+        <li>Send the link to anyone — they can rotate and zoom around your design, but they <strong>can't edit it</strong>.</li>
+      </ol>
+
+      <p>To stop sharing at any time, click <strong>Revoke link</strong>. The link immediately stops working.</p>
+
+      <div class="note"><strong>Live design</strong>Shared links contain your current design. If you keep editing, viewers see the latest saved version.</div>
+    </section>
+
+    <section id="export">
+      <h2><span class="num">11</span> Exporting</h2>
+
+      <p>Turn your design into a file you can keep or use elsewhere:</p>
+
+      <table>
+        <thead>
+          <tr><th style="width:30%">Format</th><th>What you get</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>📷 PNG</strong></td>
+            <td>A screenshot of your scene from the current camera angle. Great for emails and client proposals.</td>
+          </tr>
+          <tr>
+            <td><strong>🧊 GLB</strong></td>
+            <td>A 3D model file (industry standard) you can import into other 3D software. Contains walls, floors, and furniture — but not the helper grid or gizmos.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>Export buttons are disabled until your scene has at least one object.</p>
+    </section>
+
+    <section id="troubleshooting">
+      <h2><span class="num">12</span> Troubleshooting &amp; Tips</h2>
+
+      <table>
+        <thead>
+          <tr><th style="width:45%">Symptom</th><th>Fix</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Nothing happens when I click furniture</td><td>Make sure you're clicking on the <strong>ground</strong>, not on another object.</td></tr>
+          <tr><td>The gizmo doesn't appear</td><td>The object must be selected first, and you must be on Move/Rotate/Scale.</td></tr>
+          <tr><td>"Project was modified elsewhere"</td><td>Someone (or another tab) saved the same project. Reload the page; your latest local changes are kept in the auto-save draft.</td></tr>
+          <tr><td>Share link doesn't work</td><td>The link may have been revoked. Ask the owner to create a new one.</td></tr>
+          <tr><td>Scene looks dim or flat</td><td>Move the camera around; the lighting is fixed. Try different camera angles before exporting a PNG.</td></tr>
+          <tr><td>Big scenes run slowly</td><td>Lots of furniture can slow older computers. Keep Snap ON to keep furniture aligned and tidy.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+</div>
+
+<footer>Interior Design 3D — User Guide</footer>
+
+</body>
+</html>
