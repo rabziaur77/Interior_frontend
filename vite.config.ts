@@ -9,7 +9,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:5145',
+        target: 'https://89-116-21-168.sslip.io/interior',
         changeOrigin: true,
       },
     },

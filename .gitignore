@@ -11,6 +11,12 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.env.*
+
+# opencode config (contains secrets)
+.opencode/opencode.json
+.config/
 
 # Editor directories and files
 .vscode/*
